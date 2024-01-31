@@ -1,0 +1,304 @@
+Files in 2020-2bootstrapResearch are from the 2020 session of research. Almost all code utilities that were previously in here have been greatly improved in other files either in 2021-3bootstrapResearch or in the main directory.
+
+Files in 2021-3bootstrapResearch are files from the 2021 session of research which might still be useful. Most code and utilities in here has been replaced with new code in the main folder.
+
+CODE DOCUMENTATION:
+_________________________________________________________________________________
+conjectureSorting.py - Python file
+
+sortConjectures(conjListFile) 
+- takes a file 'conjListFile' (without .txt) of conjectures, groups together conjectures which have properties in common (list of all is_cubic conjectures, all is_long_hole_free conjectures, etc.) and saves the file as '{}-sorted.txt'.format(conjListFile)
+- assumes one conjecture per line, properties pulled using a regex
+- hardcoded to ignore 'is_2_bootstrap_good' when sorting
+
+filterConjectures(conjListFile, conjFilter)
+- takes a file 'conjListFile' (without .txt) of conjectures and a file 'conjFilter' (without .txt) and removes all lines from 'conjListFile' which appear in 'conjFilter'
+- creates a new file '{}-filtered.txt'.format(conjListFile)
+
+checkConjSubstring(conj, conjFilter)
+- return False if conj is a substring of conjFilter
+
+conjConcat(fileNames, outputFileName)
+- takes a list of file names, concatenates them together, and output the result with the name outputFileName
+
+_________________________________________________________________________________
+fileFunctions.sage - Sage file
+
+sortConjectures(conjListFile, exclude)
+- takes a file 'conjListFile' (without a file extension) and a list of property names as strings to 'exclude' from the sorted file
+- sorts a list of conjectures in the same way as the conjectureSorting utility of the same name, except instead of not including 'is_2_bootstrap_good' in the groupings, it excludes any properties in 'exclude'
+- output file name '{}-sorted.txt'.format(conjListFile)
+
+filterConjectures(conjListFile, conjFilter)
+- copy pasted from conjectureSorting, still uses checkConjSubstring even though that function is not in this sage file - filterConjectures probably never used
+
+removeDupes(conjListFile)
+- removes any duplicate lines from 'conjListFile' (file name without extension)
+- unduped file saved to '{}-unDuped.txt'.format(conjListFile)
+
+makeConjectureFileName()
+- creates a file in /conjectures with (the current date and time)-Conjectures as the file name (again without the .txt extension)
+
+_________________________________________________________________________________
+threeBootstrapDefinitions.sage - Sage file
+
+is_3_bootstrappable(G)
+- takes a graph G
+- creates list initialSets (set of all 3 vertex subsets of G)
+- returns False if fails 'has_3_degree_condition'
+- checks if 3BG using percolate
+- the use of initialSets is terrible memory complexity - newer version uses itertools
+
+k_percolate(G, infected, k)
+- takes a graph G, initial infected set 'infected', bootstrap number k
+- checks if 'infected' percolates using set intersections
+
+percolate(G, infected)
+- calls k_percolate(G,infected,3)
+
+has_k_degree_condition(G, k)
+- if G has >k vertices of degree <k, then G cannot be k-BG
+- returns True if <k vertices degree <k, False otherwise
+- written weirdly - can be easily improved if needed
+
+has_3_degree_condition(G)
+- returns has_k_degree_condition(G, 3)
+
+has_k_connected_condition(G, k)
+- if G has more than k vertices and is disconnected, it cannot be k-BG
+- returns True if connected or if order > k
+
+has_3_connected_condition(G)
+- returns has_k_connected_condition(G, 3)
+
+_________________________________________________________________________________
+bootstrap_definitions.sage - Sage file
+
+has_blocks_property(g)
+- returns True if graph g is connected and has <=2 blocks
+- else False
+- probably should be called has_2_blocks_property
+
+has_3_blocks_property(g)
+- returns True if graph g is connected and has <=3 blocks
+- else False
+
+has_3BG_blocks_property(g)
+- returns True if g is connected and either: a single block, or two blocks (with one block a single edge)
+- else False
+
+k_percolate(G, infected, k)
+- same as the threeBootstrapDefinitions version
+
+percolate(G, infected)
+- same as the threeBootstrapDefinitions version
+
+diameter_no_more_than_two(g)
+- returns True iff graph g has diameter <=2
+
+is_dirac(g)
+- returns True iff graph g has min degree >= 1/2 * order
+
+girth_less_than_five(g)
+- returns True iff graph g has girth < 5
+
+min_degree(g)
+- returns the minimum degree present in G
+
+is_k_bootstrappable(G, k)
+- same as is_3_bootstrappable except for k instead of 3
+- is_3_bootstrappable(G) is the same as is_k_bootstrappable(G, 3)
+- is_2_bootstrappable(G) is the same as is_k_bootstrappable(G, 2)
+
+is_3_bootstrappable(G)
+- takes a graph G
+- calls k_percolate(G, set(s), 3) on each set of 3 vertices set(s) using itertools.combinations
+- does not use something like the has_k_degree_condition function from threeBootstrapDefinitions - should this be used?
+
+is_2_bootstrap_good(G)
+- takes a graph G
+- calls k_percolate(G, set(s), 2) on each set of 2 vertices set(s) using itertools.combinations
+- does not use something like the has_k_degree_condition function from threeBootstrapDefinitions - should this be used?
+
+is_3_bootstrap_bad(G)
+- returns True iff G is not 3BGood
+
+is_2_bootstrap_bad(G)
+- returns True iff G is not 2BGood
+
+checkNoProperties(G, noProps)
+- noProps takes functions as strings as in "is_2_bootstrap_good"
+- returns True if graph G DOES NOT satisfy any properties in noProps
+- else returns False
+
+checkYesProperties(G, yesProps)
+- yesProps is a list functions as strings as in "is_2_bootstrap_good"
+- returns True if graph G DOES satisfy every property in yesProps
+- else returns False
+
+yesAndNoProperties(G, yesProps, noProps)
+- both yesProps and noProps take functions as strings as in "is_2_bootstrap_good"
+- returns True if G satisfies everything in yesProps and fails everything in noProps
+
+yesAndNoPropertiesList(gList, yesProps, noProps)
+- both yesProps and noProps take functions as strings as in "is_2_bootstrap_good"
+- returns a list of the graphs in gList which satisfy everything in yesProps and fail everything in noProps
+
+is_2_bootstrap_at_most_3(G)
+- returns True if graph G can be 2 bootstrap infected by an initial set of size 3
+
+is_2_bootstrap_exactly_3(G)
+- returns True if graph G can be 2 bootstrap infected by an initial set of size 3 but no an initial set of size 2
+
+_________________________________________________________________________________
+conjectureCreatingUtilities.sage - Sage file - uses some functions from bootstrap_definitions, fileFunctions, and conjecturing, uses graph_objects from gt.sage, and uses the database from gt_precomputed_database.sage
+
+loadObjGraphs()
+- returns a list of the graph objects pulled from 3BG graph lists
+- the lists the graphs are pulled from store the graphs as objects rather than as g6strings 
+
+makeRegularGraphs(numPerVertices, minV, maxV)
+- returns a list of regular graphs
+- makes numPerVertices regular graphs of each number of vertices between minV and maxV (inclusive)
+- only includes graphs that satisfy the 3BG_blocks_property
+
+getFalsifying()
+- load graphs from a hardcoded file which stores graphs which falisfied 3BG conjectures
+- first undupes the file, then loads each graph - loads graphs using Graph() rather than having the graph objects themselves already stored
+- only includes graphs which have the 3BG_blocks_property
+- returns the result as a list of graphs
+
+loadConjecturingGraphs()
+- creates a list of the graphs from graph_objects (from gt.sage), makeRegularGraphs(), getFalsifying(), and loadObjGraphs()
+- only includes graphs which satisfy 3BG_blocks_property and that have order<100
+- returns the list of graphs
+
+makeTheoremList()
+- returns 3 theorems as lambda functions
+
+makeConjectureFileName(conjName)
+- mostly same as the fileFunctions version of makeConjectureFileName - should change the name of one of these functions because this can lead to weird stuff depending on the scope each function is used in
+- conjName used as a prefix for the filename
+- filename also returned without file extension
+
+createConjectures()
+- uses the graphs made by loadConjecturingGraphs(), the theorems from makeTheoremList(), 20 random properties + 3BG and 2BG, and the database from gt_precomputed_database
+- makes sufficient graphs 
+- files saved to filename created by makeConjectureFileName - results appended if file already exists
+
+isSixRegular(G)
+- returns if G is a 6-regular graph
+
+_________________________________________________________________________________
+conjectureCheckingUtilities.sage - 
+
+all file name parameters are input without file extensions. So conjectures/someFile.txt will be input as 'conjectures/someFile'
+
+the file includes a set of file prefixes as global variables
+- should change these to absolute rather than relative paths so moving the conjectures directory or this code file don't break things
+
+checkFalseConjList(conj, suffix, sufficient=True)
+- function for checking if an individual conjecture 'conj' is present in the false conjecture list for the property 'suffix'
+- builds the false conjecture list using the appropriate global prefix variable, the value of 'suffix', and sufficient vs necessary
+
+recordFalseConj(conj, falseGraph, suffix, sufficient=True)
+- function for recording a conjecture as false into the regular and verbose files for the property 'suffix'
+- i.e. if a conjecture about is_2_bootstrap_good is false, it will be written to the 2BG conjecture lists alongside the graph, falseGraph, that proved it false
+
+recordStillUnfalsified(conj, suffix, sufficient=True)
+- function which does almost the same thing as recordFalseConj but for 'still unfalsified' conjectures
+- 'still unfalsified' conjectures are those that have been tested but not proven false yet
+
+recordFalsifyingGraph(falseGraph, suffix, sufficient=True)
+- function for recording a graph as being one that has disproven a conjecture about the property 'suffix'
+- i.e. if a conjecture about is_2_boostrap_good is false, the graph that disproved the conjecture will be written to the 2BG falsifying graph list
+
+getSuffix(line, suff)
+- returns the last property used in a conjecture 'line'
+- the last property is used as the file suffix for conjecture files
+- 'suff' tells the function if the examined conjecture is necessary or sufficient
+- suff shouldn't be a parameter - getSuffix should determine this value itself
+
+replaceNeg(s), replaceAND(s), replaceOR(s), replaceXOR(s), replaceImp(s), replaceConv(s)
+- functions that represent the truth tables for negation, AND, OR, XOR, -> (implication), and <- (converse)
+
+evaluateString(s)
+- function for simplfying logical strings into 'True' or 'False' using the functions replaceNeg, replaceAND, replaceOR, replaceXOR, replaceImp, and replaceConv
+
+checkSingleConj(conj, testAgainst):
+- function for testing a single conjecture against a list of graphs
+- results are returned as a tuple 
+- first element is if the conjecture is true (assumed true if not proven false) or false
+- second element is empty if conjecture false, else it stores the graph that disproved the conjecture
+
+checkConjListAgainstGraphs(conjList, testAgainst, outputFileName)
+- function for testing a list of conjectures against a list of graphs
+- results saved to outputFileName and the appropriate unfalsified and falisfied files
+
+checkConjListAgainstFile(conjList, graphFile, outputFileName)
+- function for testing a list of conjectures, conjList, against a list of graphs in a file, graphFile, and the results are sent to outputFileName
+
+randConnected(n, p, c = 2000)
+- function that makes connected graphs with the 3BG_blocks_property using RandomGNP
+- this can probably be improved
+
+makeCheckingGraphs()
+- function used in the checking functions when a list of graphs is not given
+- returns a list of graphs from graph_objects with order<20 as well as 100 graphs generated randomly which have the 2_blocks_property
+- this function doesn't seem very useful
+
+checkConjListDefault(conjList, outputFileName)
+- function for testing a list of conjectures against a list of graphs generated by makeCheckingGraphs()
+- results sent to outputFileName
+
+checkConjFileAgainstGraphs(conjListFile, testAgainst)
+- function for testing a file of conjectures against a list of graphs
+- results will be saved to the appropriate files for each conjecture
+- i.e. every sufficient 2BG conjecture will be saved to the sufficient 2BG files
+
+checkConjFileDefault(conjListFile)
+- function for testing a file of conjectures against a list of graphs generated by makeCheckingGraphs()
+- results will be saved to the appropriate files for each conjecture
+- i.e. every sufficient 2BG conjecture will be saved to the sufficient 2BG files
+
+checkConjFileAgainstFile(conjListFile, graphFile)
+- function for testing a file of conjectures against a file of graphs
+- results will be saved to the appropriate files for each conjecture
+- i.e. every sufficient 2BG conjecture will be saved to the sufficient 2BG files
+
+recordMinFalsifying(conj, falseGraphString)
+- function which records the minimum order graph which falsifies conj
+- writes to both minFalsifyingGraphFile and minFalsifiedConjecturesFile
+
+findMinFalsifyingGraph(conj, falseGraphString)
+- function which tries to find a smaller falsifying graph for 'conj' than the graph given by 'falseGraphString'
+- results printed and recorded using recordMinFalsifying or recordStillUnfalsified
+
+makeConjTuplesList(conjList, falseGraphList)
+- function for pairing conjectures from the file conjList with their respective falsifying graphs from falseGraphList
+- function used for findMinFalsifyingGraphFile
+
+findMinFalsifyingGraphFile(conjList, falseGraphList)
+- same as findMinFalsifyingGraph but where conjList is a file of conjectures and falseGraphList is a file of the respective graphs falsifying those conjectures
+
+removeSmallFalsifying(minFalseSize, conjList, falseGraphList)
+- creates a new pair of files, newConjFile and newGraphFile which keep only the conjecture, graph pairs from conjList and falseGraphList that have order >= minFalseSize
+- this was used to get rid of some trivial graphs from our falsifying graph list
+
+checkAgainstSmallGraphs(conj, maxOrder=8, graphCond='-c')
+- function for checking a conjecture, conj, against every graph of orders 3 to maxOrder (inclusive) which satisfies graphCond where graphCond is a parameter for nauty_geng
+- check 'Graph Generation - nauty_geng man.txt' for a list of parameters
+- '-c' is the connected parameter
+
+checkFileAgainstSmallGraphs(conjListFile, maxOrder=8, graphCond='-c')
+- function for checking a file of conjectures, conjListFile, against every graph of orders 3 to maxOrder (inclusive) which satisfies graphCond where graphCond is a parameter for nauty_geng
+- check 'Graph Generation - nauty_geng man.txt' for a list of parameters
+- '-c' is the connected parameter
+
+checkAgainstRandomGNP(conj, n=8, prob = random(), checkNum = 1000)
+- checks a conjecture, conj, against checkNum graphs of order n generated using randConnected
+- randConnected uses the 3BG_blocks_property so this would need to be updated for more general use
+
+checkFileAgainstRandomGNP(conjListFile, n=8, prob = random(), checkNum = 100000)
+- checks each conjecture in a file, conjListFile, against checkNum random graphs of order n using randConnected
+- randConnected uses the 3BG_blocks_property so this would need to be updated for more general use

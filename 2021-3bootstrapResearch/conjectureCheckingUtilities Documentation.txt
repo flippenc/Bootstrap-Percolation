@@ -1,0 +1,95 @@
+ConjectureCheckingUtilies:
+
+All file names are input without file extensions. So conjectures/someFile.txt will be input as 'conjectures/someFile'
+This naming convention makes generating new file names easier
+Results from conjecture checking functions are saved to multiple txt files to make certain other functions run more easily,
+especially those that pull g6 strings from files. Trying to get those strings with regex would be annoying because they 
+almost always contain special characters which can mess up regex parsing
+
+checkFalseConjList(conj, suffix, sufficient=True)
+	function for checking if a conjecture conj is present in the false conjecture list for the property 'suffix'
+	i.e. if suffix is is_2_bootstrap_good, this will check if conj is in the list of false 2BG conjectures
+
+recordFalseConj(conj, falseGraph, suffix, sufficient=True)
+	function for recording a conjecture as false into the regular and verbose files for the property 'suffix'
+	i.e. if a conjecture about is_2_bootstrap_good is false, it will be written to the 2BG conjecture lists
+	alongside the graph that proved it false
+
+recordFalsifyingGraph(falseGraph, suffix, sufficient=True)
+	function for recording a graph as being one that has proven a conjecture involving 'suffix' false
+	i.e. if a conjecture about is_2_boostrap_good is false, the graph that proved that will be written
+	to the 2BG falsifying graph list
+
+checkConjListAgainstFile(conjList, graphFile, outputFileName)
+	function for testing a list of conjectures against a list of graphs in a file
+	results sent to outputFileName
+
+checkConjListDefault(conjList, outputFileName)
+	function for testing a list of conjectures against a list of graphs which will be generated randomly
+	results sent to outputFileName
+
+checkConjListAgainstGraphs(conjList, testAgainst, outputFileName)
+	function for testing a list of conjectures against a list of graphs
+	results sent to outputFileName
+
+checkConjFileDefault(conjListFile)
+	function for testing a file of conjectures against a list of graphs which will be generated randomly
+	results will be saved to the appropriate files for each conjecture
+	i.e. every sufficient 2BG conjecture will be saved to the sufficient 2BG files
+
+checkConjFileAgainstFile(conjListFile, graphFile)
+	function for testing a file of conjectures against a file of graphs
+	results will be saved to the appropriate files for each conjecture
+	i.e. every sufficient 2BG conjecture will be saved to the sufficient 2BG files
+
+checkConjFileAgainstGraphs(conjListFile, testAgainst)
+	function for testing a file of conjectures against a list of graphs
+	results will be saved to the appropriate files for each conjecture
+	i.e. every sufficient 2BG conjecture will be saved to the sufficient 2BG files
+
+evaluateString(s)
+	function for simplfying logical strings into 'True' or 'False' using string replacements
+
+replaceNeg(s), replaceAND(s), replaceOR(s), replaceXOR(s), replaceImp(s), replaceConv(s)
+	functions that represent the truth tables for negation, AND, OR, XOR, ->, and <-
+
+checkSingleConj(conj, testAgainst):
+	function for testing a single conjecture agianst a list of graphs
+	results are returned as a tuple 
+	first element is if the conjecture is true (assumed true if not proven false) or false
+	second element is empty if conjecture false, else it stores the graph that disproved
+	the conjecture
+
+getSuffix(line, suff)
+	function used for determining file suffixes when saving results
+
+findMinFalsifyingGraphFile(conjList, falseGraphList)
+	function for finding the smallest falsifying graph for a given conjecture
+	conjList and falseGraphList are files holding false conjecture and their falsifying graphs
+	for line N of conjList, line N of falseGraphList is the graph that disproved it
+	this function tries to find a graph of order smaller than the original falsifying graph
+
+makeConjTuplesList(conjList, falseGraphList)
+	function for turning the pairs of lines from findMinFalsifyingGraphFile into tuples
+
+makeCheckingGraphs()
+	function used in the checking functions when a list of graphs is not given
+	returns a list of graphs from graph_objects with order<20 as well as 100
+	graphs generated randomly which have the blocks_property
+
+checkFileAgainstSmallGraphs(conjListFile, maxOrder=8, graphCond='-c')
+	function for checking a list of conjectures against every graph of order range(3,maxOrder+1)
+	which satisfies graphCond where graphCond is a parameter for nauty_geng
+	check 'Graph Generation - nauty_geng man.txt' for a list of parameters
+
+checkAgainstSmallGraphs(conj, maxOrder=8, graphCond='-c')
+	function for checking a conjecture against every graph of order range(3,maxOrder+1)
+	which satisfies graphCond where graphCond is a parameter for nauty_geng
+	check 'Graph Generation - nauty_geng man.txt' for a list of parameters
+
+recordMinFalsifying(conj, falseGraphString)
+	function which records the minimum order graph which falsifies conj
+
+findMinFalsifyingGraph(conj, falseGraphString)
+	function which tries to find a smaller falsifying graph for conj than
+	the graph given by falseGraphString

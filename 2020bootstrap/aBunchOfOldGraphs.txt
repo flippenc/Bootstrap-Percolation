@@ -1,0 +1,79 @@
+#GRAPHS
+
+#CE to has_2_simplicial_vertices & van_den_heuvel
+graphzilla=Graph("LK?rgSGoUIGA~?")
+
+#CE to: ((order_leq_twice_max_degree)&(is_three_connected))->(is_2_bootstrap_good)
+blake = Graph("IxKIGK`cG")
+
+#CE to: (is_2_bootstrap_good)->((is_van_den_heuvel)|(is_weakly_chordal))
+lovasz_plummer=Graph('iOQBC__???G_?OCG@??C???_C?G?@_?__??????_??@???E?C?C?A?A??CC????O???@??G??_????o?????????A?????O????B?????A????CO?????C?????@??????C??????W?????CO')
+
+#CE to ((~(alpha_leq_order_over_two))&(is_van_den_heuvel))->(is_2_bootstrap_good)
+ce29 = Graph('P@g??BSCcIA???COcSO@@O@c')
+
+#CE to: ((has_simplical_vertex)&(diameter_equals_twice_radius))->(is_2_bootstrap_good)
+ce27 = Graph('K_GBXS`ysCE_')
+
+#CE to 2BG and girth 4 => eulerian or bipartite
+chvatal = graphs.ChvatalGraph()
+
+#CE to perfect & 2-connected
+cube = Graph("Gl`HGs")
+
+#CE to is_3_connected and has_kite => 2BG
+ugly_kite = Graph("L?GO@cMoeCuGRG")
+
+#CE to locally_connected or genghua_fan => 2BG
+c4s_k4_center = Graph('G~OXCC')
+
+#CE to has_kite & is_dart_free => 2BG
+kissing_kites = Graph('O_C?_oH`A@C?OIH@?aHCG')
+
+#CE to has_dart and is_kite_free => 2BD
+kissing_darts = Graph('OOSo@?G?dAHU?D?EC_@G?')
+
+#CE to "If ((is_apex)&(diameter_no_more_than_two)) then is_2_bootstap_good".
+apex = Graph("GhdHKc")
+
+#a graph with diameter 2 that is not a cograph (and not 2BG)
+big_house = Graph("ECxo")
+
+#p4 is a path on 4 vertices
+#p4 is bad but has more than 2 blocks
+p4 = graphs.PathGraph(4)
+
+#clebsch graph, see: https://en.wikipedia.org/wiki/Clebsch_graph
+#clebsch has girth = 4, diameter = 2, not-2BG
+clebsch = graphs.ClebschGraph()
+
+#an n-paw is an n-cycle with a single pendant
+paw4 = Graph('Dl_')
+
+#the strong product of p4 with itself (is 2BG and has diameter 3)
+grid4 = Graph('OcG@JN?@q@L@YrcSGDEbe')
+
+#the omnipresent Petersen graph
+pete = graphs.PetersenGraph()
+
+#a triangle attached to a pendant
+paw = Graph("CV")
+
+#5-cycle surrounded by 5 triangles,
+#CE to: if every vertex in a triangle then graph is 2BG
+pentagon_star = Graph('IhfB@_Wa?')
+
+#complete graph on 3 vertices
+k3 = graphs.CompleteGraph(3)
+
+#4-cycle with chord
+diamond = Graph('C|')
+
+#2 c4s joined at a vertex
+glasses = Graph('Fla?W')
+
+#2BG g6 strings - need to build these still
+G6 = ['DrK', 'Cl', 'Dl{', 'Dls']
+
+#a pentagon with 2 chords (has an induced p4 and is 2BG)
+pent_chords = Graph("Ks_?BLUR`wFO")

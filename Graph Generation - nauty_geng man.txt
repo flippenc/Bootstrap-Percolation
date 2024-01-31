@@ -1,0 +1,29 @@
+nauty_geng(options="", debug=False)
+	Return a generator which creates graphs from nauty’s geng program
+	INPUT:
+	
+	•options– string (default:""); 
+		a string passed to geng as if it was run at a system command line.
+	At a minimum, you must pass the number of vertices you desire.  
+	Sage expects the graphs to be in nauty’s “graph6” format, do not set an option to change this default or results will be unpredictable.
+	
+	•debug– 
+	boolean (default:False);  
+	if True the first line of geng’s output to standard error is captured and the first call to the generator’s next() function will return this line as a string.
+	A line leading with “>A” indicates a successful initiation of the program with some information on the arguments, while a line beginning with “>E” indicates an error with the 		input. The possible options, obtained as output of geng --help:
+
+n		: the number of vertices
+mine:maxe	: <int>:<int> a range for the number of edges
+		  <int>:0 means '<int> or more' except in the case 0:0
+res/mod 	: only generate subset res out of subsets 0..mod-1
+-c		: only write connected graphs
+-C		: only write biconnected graphs
+-t		: only generate triangle-free graphs
+-f		: only generate 4-cycle-free graphs
+-b		: only generate bipartite graphs(-t, -f and -b can be used in any combination)
+-m		: save memory at the expense of time (only makes a difference in the absence of -b, -t, -f and n <= 28).
+-d<int>		: a lower bound for the minimum degree
+-D<int>		: a upper bound for the maximum degree
+-v		: display counts by number of edges
+-l		: canonically label output graphs
+-q		: suppress auxiliary output (except from -v)
