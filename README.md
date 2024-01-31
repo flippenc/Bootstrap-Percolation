@@ -1,19 +1,19 @@
-# Bootstrap-Percolation
+# Bootstrap Percolation
  
 **General Research Information:**
 
 -   This research was conducted over the course of several semesters
-    under the leadership of Dr.Neal Bushaw. In the spring of 2020, I
+    under the leadership of Dr. Neal Bushaw. In the spring of 2020, I
     took MATH 356 (Undergraduate Graph Theory) as an Honors course
     (information about Honors courses can be found
     [here](https://honors.vcu.edu/academics/courses/honors-contracts/))
-    in which I worked with Dr.Bushaw on this research. In the spring and
+    in which I worked with Dr. Bushaw on this research. In the spring and
     summer of 2021 as well as spring of 2022, I continued working on
-    this research with Dr.Bushaw. The research I did during the spring
+    this research with Dr. Bushaw. The research I did during the spring
     of 2022 fulfilled 2 credits of MATH 492 (Independent Study) course
     credit
 
--   This research built upon work done by Dr.Neal Bushaw, Dr.Craig
+-   This research built upon work done by Dr. Neal Bushaw, Dr. Craig
     Larson, and a group of VCU graduate and undergraduate students
     during the summer of 2018. This research was published in 2023 and
     can be accessed for free
@@ -30,68 +30,29 @@
 
 **Theory Explanation:**
 
--   *r*-neighbor bootstrap percolation is a monotone infection process
-    which takes place on a graph *G*. Given any set of initially
-    infected vertices *A*<sub>0</sub>, we allow the infection to spread
+-   $r$-neighbor bootstrap percolation is a monotone infection process
+    which takes place on a graph $G$. Given any set of initially
+    infected vertices $A_0$, we allow the infection to spread
     via a simple rule – any vertex in the graph with at least *r*
     infected neighbors becomes infected. Formally, we set
-    *A*<sub>1</sub> = {*v* ∈ *V*(*G*) : \|*N*(*v*)∩*A*<sub>0</sub>\| ≥ *r*} ∪ *A*<sub>0</sub>.
+    $$A_1=\{v\in V(G):|N(v)\cap A_0|\ge r\}\cup A_0.$$
     Then, we repeat, setting
-    *A*<sub>*t*</sub> = {*v* ∈ *V*(*G*) : \|*N*(*v*)∩*A*<sub>*t* − 1</sub>\| ≥ *r*} ∪ *A*<sub>*t* − 1</sub>.
+    $$A_t=\{v\in V(G):|N(v)\cap A_{t-1}|\ge r\}\cup A_{t-1}.$$
     If our graph is finite, the infection process must stop: either
     every vertex becomes infected, or no new infection takes place at
-    some step. We denote this final stable infected set as
-    ⟨*A*<sub>0</sub>⟩
+    some step. We denote this final stable infected set as $\langle{G}\rangle$
 
 -   In this research, we were interested in those initial infection sets
     which eventually infect the entire graph, where we find
-    ⟨*A*<sub>0</sub>⟩ = *V*(*G*). In these cases, we say that
-    *A*<sub>0</sub> *percolates*. A natural extremal question arises:
-    given a graph *G*, how small can a percolating set be in
-    *r*-neighbor bootstrap percolation?
+    $\langle{G}\rangle = V(G)$. In these cases, we say that
+    $A_0$ *percolates* $G$. A natural extremal question arises:
+    given a graph $G$, how small can a percolating set be in
+    $r$-neighbor bootstrap percolation?
 
 -   In each semester of this research, we studied slightly different
-    versions of the bootstrap percolation problem. However, in each
-    semester of research, we extensively used the automated conjecturing
+    versions of the bootstrap percolation problem. However, we extensively used the automated conjecturing
     program entitled Conjecturing (which can be downloaded
-    [here](http://nvcleemp.github.io/conjecturing/)). More information
-    about what Conjecturing does can be found in [this
-    paper](https://arxiv.org/abs/1801.01814). Due to the amount of time
-    spent using Conjecturing in this project, I wrote many utilities for
-    working with large numbers of conjectures. I started working on some
-    of these utilities in 2020 and 2021, but I greatly improved them
-    in 2022. Explanations of
-
--   Our initial research in the spring of 2020 focused on determining
-    which graphs were what we called *2-bootstrap-good*. We say a graph
-    *G* is 2-bootstrap-good if there exists an initially infected set
-    *A*<sub>0</sub> of size 2 which percolates *G* in 2-neighbor
-    bootstrap percolation. In other words, we want to find which graphs
-    are possible to fully infect using two initially infected vertices
-    where new vertices are infected if at least two of their neighbors
-    are infected
-
--   During the spring and summer of 2021, we spent some more time
-    looking at 2-bootstrap-good graphs, but our main focus was on
-    *3-bootstrap-good* graphs. We say a graph *G* is 3-bootstrap-good if
-    there exists an initially infected set *A*<sub>0</sub> of size 3
-    which percolates *G* in 3-neighbor bootstrap percolation. In other
-    words, we want to find which graphs are possible to fully infect
-    using three initially infected vertices where new vertices are
-    infected if at least three of their neighbors are infected
-
--   During the spring of 2022, we continued our work with
-    3-bootstrap-good graphs. We also spent some time working with more
-    general versions of the bootstrap problem such as studying
-    *3,2-bootstrap-good* graphs in which the initially infected set
-    *A*<sub>0</sub> is size 3, but a vertex is infected if at least 2 of
-    its neighbors are infected
-
--   In each semester of this research, we studied slightly different
-    versions of the bootstrap percolation problem. However, in each
-    semester of research, we extensively used the automated conjecturing
-    program entitled Conjecturing (which can be downloaded
-    [here](http://nvcleemp.github.io/conjecturing/)). More information
+    [here](http://nvcleemp.github.io/conjecturing/)) during every semester. More information
     about what Conjecturing does can be found in [this
     paper](https://arxiv.org/abs/1801.01814). Due to the amount of time
     spent using Conjecturing in this project, I wrote many utilities for
@@ -102,8 +63,8 @@
 
 -   Our initial research in the spring of 2020 focused on determining
     which graphs were what we called *2-bootstrap-good*. We say a graph
-    *G* is 2-bootstrap-good if there exists an initially infected set
-    *A*<sub>0</sub> of size 2 which percolates *G* in 2-neighbor
+    $G$ is 2-bootstrap-good if there exists an initially infected set
+    $A_0$ of size 2 which percolates $G$ in 2-neighbor
     bootstrap percolation. In other words, we want to find which graphs
     are possible to fully infect using two initially infected vertices
     where new vertices are infected if at least two of their neighbors
@@ -111,9 +72,9 @@
 
 -   During the spring and summer of 2021, we spent some more time
     looking at 2-bootstrap-good graphs, but our main focus was on
-    *3-bootstrap-good* graphs. We say a graph *G* is 3-bootstrap-good if
-    there exists an initially infected set *A*<sub>0</sub> of size 3
-    which percolates *G* in 3-neighbor bootstrap percolation. In other
+    *3-bootstrap-good* graphs. We say a graph $G$ is 3-bootstrap-good if
+    there exists an initially infected set $A_0$ of size 3
+    which percolates $G$ in 3-neighbor bootstrap percolation. In other
     words, we want to find which graphs are possible to fully infect
     using three initially infected vertices where new vertices are
     infected if at least three of their neighbors are infected
@@ -122,7 +83,7 @@
     3-bootstrap-good graphs. We also spent some time working with more
     general versions of the bootstrap problem such as studying
     *3,2-bootstrap-good* graphs in which the initially infected set
-    *A*<sub>0</sub> is size 3, but a vertex is infected if at least 2 of
+    $A_0$ is size 3, but a vertex is infected if at least 2 of
     its neighbors are infected
 
 **Code Explanation:**
@@ -134,7 +95,7 @@
 
 -   Files in `2021-3bootstrapResearch` are files from the 2021 session
     of research which might still be useful. Most code and utilities in
-    here has been replaced with new code in the main folder.
+    here has been replaced with new code in the main folder
 
 -   The file `Bootstrap Documentation.txt` has explanations of all of
     the functions from functions in the main directory
@@ -152,8 +113,8 @@
     checking if graphs are 3-bootstrap-good as well as other similar
     graph conditions
 
--   The file ` bootstrapdefinitions.sage` contains functions for general
-    *r*-neighbor bootstrap percolation problems. This file also contains
+-   The file `bootstrap_definitions.sage` contains functions for general
+    $r$-neighbor bootstrap percolation problems. This file also contains
     functions which check for certain necessary and sufficient
     conditions related to certain types of bootstrap percolation
     problems
@@ -161,6 +122,10 @@
 -   The file `conjectureCreatingUtilities.sage` contains functions for
     loading preexisting conjectures, saved graphs, and graph properties
     and functions for creating new conjectures
+
+-   The file `conjectureCheckingUtilities.sage` contains many functions
+    for automating the process of testing conjectures against lists of
+    graphs and recording the results
 
 -   The file `conjectureCheckingUtilities.sage` contains many functions
     for automating the process of testing conjectures against lists of
