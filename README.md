@@ -126,7 +126,3 @@
 -   The file `conjectureCheckingUtilities.sage` contains many functions
     for automating the process of testing conjectures against lists of
     graphs and recording the results
-
--   The file `conjectureCheckingUtilities.sage` contains many functions
-    for automating the process of testing conjectures against lists of
-    graphs and recording the results
